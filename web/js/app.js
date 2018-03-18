@@ -1,15 +1,21 @@
-function openQRCamera(node) {
-  var reader = new FileReader();
-  reader.onload = function() {
-    node.value = "";
-    qrcode.callback = function(res) {
-      if(res instanceof Error) {
-        alert("No QR code found. Please make sure the QR code is within the camera's frame and try again.");
+$(document).ready(function(){
+  $('.btn-scan-activate').click(function() {
+    scanner();
+  });
+});
+
+function scanner() {
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    scanner.addListener('scan', function (content) {
+      console.log(content);
+    });
+    Instascan.Camera.getCameras().then(function (cameras) {
+      if (cameras.length > 0) {
+        scanner.start(cameras[0]);
       } else {
-        node.parentNode.previousElementSibling.value = res;
+        console.error('No cameras found.');
       }
-    };
-    qrcode.decode(reader.result);
-  };
-  reader.readAsDataURL(node.files[0]);
+    }).catch(function (e) {
+      console.error(e);
+    });
 }
