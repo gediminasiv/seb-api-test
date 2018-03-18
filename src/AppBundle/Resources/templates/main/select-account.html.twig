@@ -24,7 +24,7 @@
             <select class="form-control">
                 <option value="none" disabled selected>Select bank account...</option>
                 {% for account in accounts %}
-                    <option value="{{ account.account }}">{{ account.bank }} - {{ account.account }} ({{ account.sum }} {{ account.currency }})</option>
+                    <option {{ loop.index == 2 ? ' selected ' }} value="{{ account.account }}">{{ account.bank }} - {{ account.account }} ({{ account.sum }} {{ account.currency }})</option>
                 {% endfor %}
             </select>
 
