@@ -1,0 +1,22 @@
+{
+  "name": "symfony-skeleton-app",
+  "authors": [
+    "Gediminas Ivanauskas <gediminas.iv@gmail.com>"
+  ],
+  "description": "This is assets collection for Symfony Skeleton App.",
+  "main": "",
+  "license": "MIT",
+  "homepage": "http://ivanauskas.lt",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "4.0",
+    "jquery": "^3.3.1"
+  }
+}

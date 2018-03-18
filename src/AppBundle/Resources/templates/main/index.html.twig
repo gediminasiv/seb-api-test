@@ -1,0 +1,14 @@
+{% extends '@AppBundle/base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+              <div class="card-body text-center">
+                <button onclick="window.location.href='{{ path('qr_code_page') }}';" class="btn btn-success">Scan QR Code</button><br /><br />
+                <button onclick="alert('sekmes atveju sitas turetu generuoti koda ir parsiusti .jpg/.png i telefona');" class="btn btn-primary">Generate QR Code</button>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

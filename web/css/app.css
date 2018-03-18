@@ -1,0 +1,12 @@
+.card-full {
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+}
+
+.card.no-border {
+    border: none;
+}
+
+.consolidate-payment-tab {
+    background: #fff;
+}

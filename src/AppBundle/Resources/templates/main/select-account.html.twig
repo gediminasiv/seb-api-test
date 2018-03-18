@@ -1,0 +1,58 @@
+{% extends '@AppBundle/base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card no-border">
+                <div class="card-body">
+                      <ul class="list-group list-group-flush card-full">
+                        <li class="list-group-item"><b>Shop:</b> {{ paymentInfo.shop }}</li>
+                        <li class="list-group-item"><b>Seller Bank:</b> {{ paymentInfo.bank }}</li>
+                        <li class="list-group-item"><b>SUM:</b> <u>{{ paymentInfo.sum }} {{ paymentInfo.currency }}</u></li>
+                        <li class="list-group-item"><small><b>IBAN:</b> {{ paymentInfo.iban }}</small></li>
+                      </ul>
+                </div>
+            </div>
+
+            <br /><br />
+
+            <select class="form-control" disabled>
+                <option value="">SEB LT12345678910111213 800 EUR</option>
+            </select>
+
+            <br />
+
+            <select class="form-control">
+                <option value="none" disabled selected>Select second account...</option>
+                {% for account in accounts %}
+                    <option value="{{ account.account }}">{{ account.bank }} {{ account.account }}</option>
+                {% endfor %}
+            </select>
+
+            <br />
+
+            <div class="input-group mb-3">
+              <input disabled type="text" placeholder="Consolidate payment" class="form-control" style="background: #fff" aria-label="">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <input type="checkbox" aria-label="Checkbox for following text input">
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div class="alert alert-success" role="alert">
+              Transaction fee: <b>+€0.00</b>
+            </div>
+
+            <div class="card no-border">
+                <div class="card-body text-center">
+                    <button onclick="window.location.href='{{ path('confirm_payment_page') }}';" class="btn btn-lg btn-success">Confirm</button>
+                </div>
+            </div>
+
+            <hr />
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends '@AppBundle/base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card no-border">
+                <div class="card-body">
+                      <ul class="list-group list-group-flush card-full">
+                        <li class="list-group-item"><b>Shop:</b> {{ paymentInfo.shop }}</li>
+                        <li class="list-group-item"><b>Seller Bank:</b> {{ paymentInfo.bank }}</li>
+                        <li class="list-group-item"><b>SUM:</b> <u>{{ paymentInfo.sum }} {{ paymentInfo.currency }}</u></li>
+                        <li class="list-group-item"><small><b>IBAN:</b> {{ paymentInfo.iban }}</small></li>
+                      </ul>
+                </div>
+            </div>
+
+            <br /><br />
+
+            <div class="input-group mb-3">
+              <input type="text" placeholder="Share email for a discount" class="form-control" aria-label="Email for a discount">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <input type="checkbox" aria-label="Checkbox for following text input">
+                </div>
+              </div>
+            </div>
+
+            <br /><br />
+
+            <div class="card no-border">
+                <div class="card-body text-center">
+                    <button onclick="window.location.href='{{ path('select_account_page') }}';" class="btn btn-lg btn-success">Pay</button>
+                </div>
+            </div>
+
+            <hr />
+
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-12">
+            <p>Pay + Tips</p>
+        </div>
+        <div class="col-4">
+            <button onclick="window.location.href='{{ path('select_account_page') }}';" class="btn btn-lg btn-success">{{ paymentInfo.sum*1.1 }} {{ paymentInfo.currency }}</button><br />
+            <small>10%</small>
+        </div>
+        <div class="col-4">
+            <button onclick="window.location.href='{{ path('select_account_page') }}';" class="btn btn-lg btn-success">{{ paymentInfo.sum*1.15 }} {{ paymentInfo.currency }}</button><br />
+            <small>15%</small>
+        </div>
+        <div class="col-4">
+            <button onclick="window.location.href='{{ path('select_account_page') }}';" class="btn btn-lg btn-success">{{ paymentInfo.sum*1.2 }} {{ paymentInfo.currency }}</button><br />
+            <small>20%</small>
+        </div>
+    </div>
+{% endblock %}

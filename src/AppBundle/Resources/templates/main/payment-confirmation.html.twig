@@ -1,0 +1,24 @@
+{% extends '@AppBundle/base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card no-border">
+                <div class="card-body">
+                    This is a placeholder page for bank operations... This will redirect in several secs...
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            setTimeout(function () {
+                window.location.href='/payment-success';
+            }, 5000);
+        });
+    </script>
+{% endblock %}

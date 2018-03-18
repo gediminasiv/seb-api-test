@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title></title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('components/bootstrap/dist/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+
+        <script src="{{ asset('components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('components/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
