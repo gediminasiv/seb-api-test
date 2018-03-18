@@ -5,7 +5,9 @@
         <div class="col-12">
             <div class="card">
               <div class="card-body text-center">
-                <button onclick="window.location.href='{{ path('qr_code_page') }}';" class="btn btn-success">Scan QR Code</button><br /><br />
+                <input type=text size=16 placeholder="Tracking Code" class=qrcode-text><label class=qrcode-text-btn><input type=file accept="image/*" capture=environment onchange="openQRCamera(this);" tabindex=-1></label>
+                <input type=button value="Go" disabled>
+                <button onclick="window.location.href='{{ path('qr_code_page') }}';" class="btn btn-success btn-scan-activate">Scan QR Code</button><br /><br />
                 <button onclick="alert('sekmes atveju sitas turetu generuoti koda ir parsiusti .jpg/.png i telefona');" class="btn btn-primary">Generate QR Code</button>
               </div>
             </div>
