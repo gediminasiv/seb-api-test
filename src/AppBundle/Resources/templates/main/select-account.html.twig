@@ -16,16 +16,10 @@
 
             <br /><br />
 
-            <select class="form-control" disabled>
-                <option value="">SEB LT12345678910111213 800 EUR</option>
-            </select>
-
-            <br />
-
             <select class="form-control">
                 <option value="none" disabled selected>Select second account...</option>
                 {% for account in accounts %}
-                    <option value="{{ account.account }}">{{ account.bank }} {{ account.account }}</option>
+                    <option value="{{ account.account }}">{{ account.bank }} - {{ account.account }} ({{ account.sum }} {{ account.currency }})</option>
                 {% endfor %}
             </select>
 

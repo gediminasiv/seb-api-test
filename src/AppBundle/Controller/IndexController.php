@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request as HttpRequest;
 
 class IndexController extends Controller
 {
@@ -39,6 +41,8 @@ class IndexController extends Controller
      */
     public function selectAccountAction(Request $request)
     {
+        $client = new Client();
+
         $sellerInfo = [
             'shop' => 'JSC Big Seller',
             'bank' => 'SEB',
@@ -47,20 +51,27 @@ class IndexController extends Controller
             'iban' => '**** **** **** 1234'
         ];
 
-        $bankAccounts = [
-            [
-                'bank' => 'SEB',
-                'account' => 'LT12345678910111213',
-                'currency' => 'EUR',
-                'sum' => '800'
-            ],
-            [
-                'bank' => 'SEB',
-                'account' => 'LT1234567891014151617',
-                'currency' => 'EUR',
-                'sum' => '310'
-            ],
-        ];
+        $response = $client->get('https://test.api.ob.baltics.sebgroup.com/v1/bics/EEUHEE2X/accounts', [
+            'headers' => [
+                'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
+                'User-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJERU1PRUUsaWJzVXNlcjEiLCJleHAiOjE1NTI5MDUzNjF9.LGAvX4M08dJVmbf8l5YFYSDMf-pj0mrbGv156Rx-e2wLlFXuSIbMN4Kej_wgEqAO5Br0aaEubvHDpWmTO4MHow'
+            ]
+        ]);
+
+        $body = $response->getBody();
+
+        $body = json_decode($body);
+
+        $bankAccounts = [];
+
+        foreach ($body as $account) {
+            $bankAccounts[] = [
+                'bank' => 'SEB ' . substr($account->iban, 0, 2),
+                'account' => $account->iban,
+                'currency' => $account->currency,
+                'sum' => $account->balance
+            ];
+        }
 
         return $this->render('@AppBundle/main/select-account.html.twig', [
             'accounts' => $bankAccounts,
