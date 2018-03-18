@@ -43,6 +43,37 @@ class IndexController extends Controller
     {
         $client = new Client();
 
+        $authorization = $client->post('https://test.api.ob.baltics.sebgroup.com/v1/user/authorization?bic=CBVILT2X', [
+            'json' => [
+                'ibsUserId' => 'ibsUser2'
+            ],
+            'headers' => [
+                'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
+                'User-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJERU1PRUUsaWJzVXNlcjEiLCJleHAiOjE1NTI5MDUzNjF9.LGAvX4M08dJVmbf8l5YFYSDMf-pj0mrbGv156Rx-e2wLlFXuSIbMN4Kej_wgEqAO5Br0aaEubvHDpWmTO4MHow'
+            ]
+        ]);
+
+        $body = $authorization->getBody();
+
+        $body = json_decode($body);
+
+        $authorizationKey = $body->authorizationKey;
+
+        $token = $client->post('https://test.api.ob.baltics.sebgroup.com/v1/user/authorization/' . $authorizationKey . '/token', [
+            'json' => [
+                'ibsUserId' => 'ibsUser2',
+                'period' => 'month'
+            ],
+            'headers' => [
+                'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
+                'User-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJERU1PRUUsaWJzVXNlcjEiLCJleHAiOjE1NTI5MDUzNjF9.LGAvX4M08dJVmbf8l5YFYSDMf-pj0mrbGv156Rx-e2wLlFXuSIbMN4Kej_wgEqAO5Br0aaEubvHDpWmTO4MHow'
+            ]
+        ]);
+
+        $token = json_decode($token->getBody()->getContents());
+
+        $apiToken = $token->token;
+
         $sellerInfo = [
             'shop' => 'JSC Big Seller',
             'bank' => 'SEB',
@@ -51,10 +82,10 @@ class IndexController extends Controller
             'iban' => '**** **** **** 1234'
         ];
 
-        $response = $client->get('https://test.api.ob.baltics.sebgroup.com/v1/bics/EEUHEE2X/accounts', [
+        $response = $client->get('https://test.api.ob.baltics.sebgroup.com/v1/bics/CBVILT2X/accounts', [
             'headers' => [
                 'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
-                'User-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJERU1PRUUsaWJzVXNlcjEiLCJleHAiOjE1NTI5MDUzNjF9.LGAvX4M08dJVmbf8l5YFYSDMf-pj0mrbGv156Rx-e2wLlFXuSIbMN4Kej_wgEqAO5Br0aaEubvHDpWmTO4MHow'
+                'User-Token' => $apiToken
             ]
         ]);
 
