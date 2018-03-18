@@ -256,18 +256,6 @@ class IndexController extends Controller
             'verify' => false
         ]);
 
-        $response = $client->post('https://test.api.ob.baltics.sebgroup.com/v1/bics/CBVILT2X/accounts/openaccount', [
-            'headers' => [
-                'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
-                'User-Token' => $apiToken
-            ],
-            'json' => [
-
-            ],
-            'verify' => false
-        ]);
-
-
         $body = $response->getBody();
 
         $body = json_decode($body);
