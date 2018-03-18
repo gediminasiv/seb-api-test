@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request as HttpRequest;
 
@@ -19,16 +20,46 @@ class IndexController extends Controller
     }
 
     /**
+     * @Route("/scan-data", name="scan_data")
+     */
+    public function scanDataAction(Request $request)
+    {
+        $data = $request->get('content');
+
+        $data = [
+            'shop' => 'JSC Big Seller',
+            'bank' => 'SEB',
+            'sum' => 600,
+            'currency' => 'USD',
+            'iban' => '**** **** **** 1234'
+        ];
+
+        $session = new Session();
+
+        $session->set('shop', $data['shop']);
+        $session->set('bank', $data['bank']);
+        $session->set('sum', $data['sum']);
+        $session->set('currency', $data['currency']);
+        $session->set('iban', $data['iban']);
+
+        return $this->json([
+            'success' => true
+        ]);
+    }
+
+    /**
      * @Route("/qr-info", name="qr_code_page")
      */
     public function qrCodeAction(Request $request)
     {
+        $session = new Session();
+
         $sellerInfo = [
-            'shop' => 'JSC Big Seller',
-            'bank' => 'SEB',
-            'sum' => 500,
-            'currency' => 'EUR',
-            'iban' => '**** **** **** 1234'
+            'shop' => $session->get('shop'),
+            'bank' => $session->get('bank'),
+            'sum' => $session->get('sum'),
+            'currency' => $session->get('currency'),
+            'iban' => $session->get('iban')
         ];
 
         return $this->render('@AppBundle/main/qr-code.html.twig', [
