@@ -50,7 +50,8 @@ class IndexController extends Controller
             'headers' => [
                 'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
                 'User-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJERU1PRUUsaWJzVXNlcjEiLCJleHAiOjE1NTI5MDUzNjF9.LGAvX4M08dJVmbf8l5YFYSDMf-pj0mrbGv156Rx-e2wLlFXuSIbMN4Kej_wgEqAO5Br0aaEubvHDpWmTO4MHow'
-            ]
+            ],
+            'verify' => false
         ]);
 
         $body = $authorization->getBody();
@@ -67,7 +68,8 @@ class IndexController extends Controller
             'headers' => [
                 'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
                 'User-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJERU1PRUUsaWJzVXNlcjEiLCJleHAiOjE1NTI5MDUzNjF9.LGAvX4M08dJVmbf8l5YFYSDMf-pj0mrbGv156Rx-e2wLlFXuSIbMN4Kej_wgEqAO5Br0aaEubvHDpWmTO4MHow'
-            ]
+            ],
+            'verify' => false
         ]);
 
         $token = json_decode($token->getBody()->getContents());
@@ -86,7 +88,8 @@ class IndexController extends Controller
             'headers' => [
                 'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
                 'User-Token' => $apiToken
-            ]
+            ],
+            'verify' => false
         ]);
 
         $body = $response->getBody();
