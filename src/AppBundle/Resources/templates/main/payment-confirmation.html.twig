@@ -3,22 +3,54 @@
 {% block body %}
     <div class="row">
         <div class="col-12">
-            <div class="card no-border">
-                <div class="card-body">
-                    This is a placeholder page for bank operations... This will redirect in several secs...
-                </div>
-            </div>
-
+            <ul class="list-group console-output-payment-confirmation">
+              <li class="list-group-item">Sending authentication request... (POST https://test.api.ob.baltics.sebgroup.com/v1/user/authorization?bic=CBVILT2X)</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row payment-confirmation" style="text-align: center; display: none;">
+        <div class="col-12 text-center">
+            <img src="/img/confirmation-in-app.jpg" alt="." style="margin: 0 auto; max-width: 300px;" />
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        $(document).ready(function(){
-            setTimeout(function () {
-                window.location.href='/payment-success';
-            }, 5000);
-        });
-    </script>
+<script>
+    $(document).ready(function(){
+        setTimeout(function() {
+
+          $('.console-output-payment-confirmation').append('<li class="list-group-item" style="color: green;">Authentication confirmed</li>');
+
+          setTimeout(function() {
+            $('.console-output-payment-confirmation').append('<li class="list-group-item">Authorizing account... (POST https://test.api.ob.baltics.sebgroup.com/v1/user/authorization/xx/token)</li>');
+
+            setTimeout(function(){
+              $('.console-output-payment-confirmation').append('<li class="list-group-item" style="color: green;">Account authenticated</li>');
+
+              setTimeout(function() {
+                $('.console-output-payment-confirmation').append('<li class="list-group-item">Creating payment with provided data... (POST https://test.api.ob.baltics.sebgroup.com/v1/payments/sepa-credit-transfers/initiation)</li>');
+
+                setTimeout(function() {
+                  $('.console-output-payment-confirmation').append('<li class="list-group-item" style="color: green;">Payment creation confirmed</li>');
+
+                  setTimeout(function(){
+                    $('.console-output-payment-confirmation').append('<li class="list-group-item">Now the part where you confirm everything in the app happens....</li>');
+
+                    setTimeout(function(){
+                        $('.payment-confirmation').show();
+                        $('.console-output-payment-confirmation').hide();
+
+                        setTimeout(function(){
+                            window.location.href='/payment-success';
+                        }, 2000);
+                    }, 1200);
+                  }, 1000);
+                }, 2700);
+              }, 1100)
+            }, 800);
+          }, 300)
+        }, 1200);
+    });
+</script>
 {% endblock %}

@@ -29,7 +29,7 @@
 
             <div class="card no-border">
                 <div class="card-body text-center">
-                    <button onclick="window.location.href='{{ path('select_account_page') }}';" class="btn btn-lg btn-success">Pay</button>
+                    <button class="btn btn-lg btn-success pay-button" data-sum="{{ paymentInfo.sum }}">Pay</button>
                 </div>
             </div>
 
@@ -43,16 +43,20 @@
             <p>Pay + Tips</p>
         </div>
         <div class="col-4">
-            <button onclick="window.location.href='{{ path('select_account_page') }}';" class="btn btn-lg btn-success">{{ paymentInfo.sum*1.1 }} {{ paymentInfo.currency }}</button><br />
+            <button class="btn btn-lg btn-success pay-button" data-sum="{{ paymentInfo.sum*1.1 }}">{{ paymentInfo.sum*1.1 }} {{ paymentInfo.currency }}</button><br />
             <small>10%</small>
         </div>
         <div class="col-4">
-            <button onclick="window.location.href='{{ path('select_account_page') }}';" class="btn btn-lg btn-success">{{ paymentInfo.sum*1.15 }} {{ paymentInfo.currency }}</button><br />
+            <button class="btn btn-lg btn-success pay-button" data-sum="{{ paymentInfo.sum*1.15 }}">{{ paymentInfo.sum*1.15 }} {{ paymentInfo.currency }}</button><br />
             <small>15%</small>
         </div>
         <div class="col-4">
-            <button onclick="window.location.href='{{ path('select_account_page') }}';" class="btn btn-lg btn-success">{{ paymentInfo.sum*1.2 }} {{ paymentInfo.currency }}</button><br />
+            <button class="btn btn-lg btn-success pay-button" data-sum="{{ paymentInfo.sum*1.2 }}">{{ paymentInfo.sum*1.2 }} {{ paymentInfo.currency }}</button><br />
             <small>20%</small>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+
 {% endblock %}

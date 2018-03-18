@@ -24,14 +24,14 @@ class IndexController extends Controller
      */
     public function scanDataAction(Request $request)
     {
-        $data = $request->get('content');
+        $data = json_decode($request->get('content'));
 
         $data = [
-            'shop' => 'JSC Big Seller',
-            'bank' => 'SEB',
-            'sum' => 600,
-            'currency' => 'USD',
-            'iban' => '**** **** **** 1234'
+            'shop' => $data->shop,
+            'bank' => $data->bank,
+            'sum' => $data->sum,
+            'currency' => 'EUR',
+            'iban' => $data->iban
         ];
 
         $session = new Session();
@@ -46,6 +46,23 @@ class IndexController extends Controller
             'success' => true
         ]);
     }
+
+    /**
+     * @Route("/set-amount", name="set_amount")
+     */
+    public function setAmountAction(Request $request)
+    {
+        $sum = $request->get('amount');
+
+        $session = new Session();
+
+        $session->set('sum', $sum);
+
+        return $this->json([
+            'success' => true
+        ]);
+    }
+
 
     /**
      * @Route("/qr-info", name="qr_code_page")
@@ -107,12 +124,14 @@ class IndexController extends Controller
 
         $apiToken = $token->token;
 
+        $session = new Session();
+
         $sellerInfo = [
-            'shop' => 'JSC Big Seller',
-            'bank' => 'SEB',
-            'sum' => 500,
-            'currency' => 'EUR',
-            'iban' => '**** **** **** 1234'
+            'shop' => $session->get('shop'),
+            'bank' => $session->get('bank'),
+            'sum' => $session->get('sum'),
+            'currency' => $session->get('currency'),
+            'iban' => $session->get('iban')
         ];
 
         $response = $client->get('https://test.api.ob.baltics.sebgroup.com/v1/bics/CBVILT2X/accounts', [
@@ -184,7 +203,84 @@ class IndexController extends Controller
      */
     public function confirmPaymentPageAction(Request $request)
     {
+        $client = new Client();
+
+        $authorization = $client->post('https://test.api.ob.baltics.sebgroup.com/v1/user/authorization?bic=CBVILT2X', [
+            'json' => [
+                'ibsUserId' => 'ibsUser2'
+            ],
+            'headers' => [
+                'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
+                'User-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJERU1PRUUsaWJzVXNlcjEiLCJleHAiOjE1NTI5MDUzNjF9.LGAvX4M08dJVmbf8l5YFYSDMf-pj0mrbGv156Rx-e2wLlFXuSIbMN4Kej_wgEqAO5Br0aaEubvHDpWmTO4MHow'
+            ],
+            'verify' => false
+        ]);
+
+        $body = $authorization->getBody();
+
+        $body = json_decode($body);
+
+        $authorizationKey = $body->authorizationKey;
+
+        $token = $client->post('https://test.api.ob.baltics.sebgroup.com/v1/user/authorization/' . $authorizationKey . '/token', [
+            'json' => [
+                'ibsUserId' => 'ibsUser2',
+                'period' => 'month'
+            ],
+            'headers' => [
+                'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
+                'User-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJERU1PRUUsaWJzVXNlcjEiLCJleHAiOjE1NTI5MDUzNjF9.LGAvX4M08dJVmbf8l5YFYSDMf-pj0mrbGv156Rx-e2wLlFXuSIbMN4Kej_wgEqAO5Br0aaEubvHDpWmTO4MHow'
+            ],
+            'verify' => false
+        ]);
+
+        $token = json_decode($token->getBody()->getContents());
+
+        $apiToken = $token->token;
+
+        $session = new Session();
+
+        $sellerInfo = [
+            'shop' => $session->get('shop'),
+            'bank' => $session->get('bank'),
+            'sum' => $session->get('sum'),
+            'currency' => $session->get('currency'),
+            'iban' => $session->get('iban')
+        ];
+
+        $response = $client->get('https://test.api.ob.baltics.sebgroup.com/v1/bics/CBVILT2X/accounts', [
+            'headers' => [
+                'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
+                'User-Token' => $apiToken
+            ],
+            'verify' => false
+        ]);
+
+        $response = $client->post('https://test.api.ob.baltics.sebgroup.com/v1/bics/CBVILT2X/accounts/openaccount', [
+            'headers' => [
+                'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
+                'User-Token' => $apiToken
+            ],
+            'json' => [
+
+            ],
+            'verify' => false
+        ]);
+
+
+        $body = $response->getBody();
+
+        $body = json_decode($body);
+
         return $this->render('@AppBundle/main/payment-confirmation.html.twig');
+    }
+
+    /**
+     * @Route("/confirm-payment-screen", name="confirm_payment_screen")
+     */
+    public function confirmPaymentScreenAction(Request $request)
+    {
+        return $this->render('@AppBundle/main/confirm-payment-screen.html.twig');
     }
 
     /**
