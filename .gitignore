@@ -17,3 +17,7 @@
 /web/bundles/
 /web/components/*
 /web/assetic/*
+/node_modules
+*.php~
+.DS_Store
+package-lock.json

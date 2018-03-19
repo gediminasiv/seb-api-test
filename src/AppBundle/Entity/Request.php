@@ -22,6 +22,13 @@ class Request
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_address", type="string")
+     */
+    private $ipAddress;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="request_time", type="datetime")
@@ -93,5 +100,28 @@ class Request
     {
         return $this->requestInfo;
     }
-}
 
+    /**
+     * Set ipAddress
+     *
+     * @param string $ipAddress
+     *
+     * @return Request
+     */
+    public function setIpAddress($ipAddress)
+    {
+        $this->ipAddress = $ipAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get ipAddress
+     *
+     * @return string
+     */
+    public function getIpAddress()
+    {
+        return $this->ipAddress;
+    }
+}
