@@ -30,6 +30,7 @@ class IndexController extends Controller
         }
 
         $requestInfo->setRequestTime(new \DateTime());
+        $requestInfo->setFromPage('index');
         $requestInfo->setIpAddress($request->getClientIp());
         $requestInfo->setRequestInfo($requestData);
 
