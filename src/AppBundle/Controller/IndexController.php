@@ -14,10 +14,9 @@ class IndexController extends Controller
 {
     /**
      * @Route("/", name="homepage")
-     * @Route("/other-page", name="homepage2")
-     * @Route("/other-page/{tst}", name="homepage3")
+     * @Route("/homepage/{homepageId}", name="homepage3")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $homepageId = 'index')
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -37,7 +36,20 @@ class IndexController extends Controller
         $em->persist($requestInfo);
         $em->flush();
 
-        return $this->render('@AppBundle/main/index.html.twig');
+        $urlsArray = [];
+
+        $entries = file('../words.txt');
+
+        for ($i = 0; $i < 15; ++$i) {
+            $urlsArray[] = [
+                'path' => $this->generateUrl('homepage3', ['homepageId' => md5($i.$homepageId)]),
+                'slug' => $entries[rand(0, count($entries) - 1)] . ' ' .  $entries[rand(0, count($entries) - 1)]
+            ];
+        }
+
+        return $this->render('@AppBundle/main/index-test.html.twig',[
+            'routes' => $urlsArray
+        ]);
     }
 
     /**

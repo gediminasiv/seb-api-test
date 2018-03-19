@@ -1,0 +1,15 @@
+{% extends '@AppBundle/base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+              <div class="card-body text-center">
+                {% for route in routes %}
+                    <a href="{{ route['path'] }}">{{ route['slug'] }}</a><br />
+                {% endfor %}
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
