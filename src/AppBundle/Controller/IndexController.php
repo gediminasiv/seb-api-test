@@ -15,6 +15,7 @@ class IndexController extends Controller
     /**
      * @Route("/", name="homepage")
      * @Route("/other-page", name="homepage2")
+     * @Route("/other-page/{tst}", name="homepage3")
      */
     public function indexAction(Request $request)
     {
