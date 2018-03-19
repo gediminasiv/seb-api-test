@@ -9,14 +9,15 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <div class="container">
+        <!-- <div class="container"> -->
             {% block body %}{% endblock %}
-        </div>
+        <!-- </div> -->
 
         <script src="{{ asset('components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('components/jquery/dist/jquery.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/instascan.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/instascan.min.js') }}"></script>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -67,3 +67,7 @@ fos_user:
     from_email:
         address: '%from_email%'
         sender_name: '%sender_name%'
+
+easy_admin:
+    entities:
+        - AppBundle\Entity\Request

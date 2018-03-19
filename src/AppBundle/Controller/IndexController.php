@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request as HttpRequest;
+use AppBundle\Entity\Request as RequestInfo;
 
 class IndexController extends Controller
 {
@@ -16,7 +17,31 @@ class IndexController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $requestInfo = new RequestInfo();
+
+        $requestData = [];
+
+        foreach ($request->headers->all() as $key => $header) {
+            $requestData[] = $key . ' : ' . $header[0];
+        }
+
+        $requestInfo->setRequestTime(new \DateTime());
+        $requestInfo->setRequestInfo($requestData);
+
+        $em->persist($requestInfo);
+        $em->flush();
+
         return $this->render('@AppBundle/main/index.html.twig');
+    }
+
+    /**
+     * @Route("/visuals", name="visuals")
+     */
+    public function visualsAction(Request $request)
+    {
+        return $this->render('@AppBundle/main/visuals.html.twig');
     }
 
     /**
@@ -247,18 +272,6 @@ class IndexController extends Controller
             'currency' => $session->get('currency'),
             'iban' => $session->get('iban')
         ];
-
-        $response = $client->get('https://test.api.ob.baltics.sebgroup.com/v1/bics/CBVILT2X/accounts', [
-            'headers' => [
-                'Tpp-Token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZWRpbWluYXMuaXZAZ21haWwuY29tLVRQUFRPS0VOLTEiLCJleHAiOjE1NTI5MDUzNjF9.chIk_mTB3iTWNLbhNbpIJ0p9oK3EYfVKSFm5uuax7srTSU-UbbULl64nl3z45cA01mxIEMxsC4t_oNYRlgHKwQ',
-                'User-Token' => $apiToken
-            ],
-            'verify' => false
-        ]);
-
-        $body = $response->getBody();
-
-        $body = json_decode($body);
 
         return $this->render('@AppBundle/main/payment-confirmation.html.twig');
     }
