@@ -28,6 +28,7 @@ class IndexController extends Controller
         }
 
         $requestInfo->setRequestTime(new \DateTime());
+        $requestInfo->setIpAddress($request->getClientIp());
         $requestInfo->setRequestInfo($requestData);
 
         $em->persist($requestInfo);
