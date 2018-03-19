@@ -29,6 +29,13 @@ class Request
     private $ipAddress;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="from_page", type="string")
+     */
+    private $fromPage;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="request_time", type="datetime")
@@ -123,5 +130,29 @@ class Request
     public function getIpAddress()
     {
         return $this->ipAddress;
+    }
+
+    /**
+     * Set fromPage
+     *
+     * @param string $fromPage
+     *
+     * @return Request
+     */
+    public function setFromPage($fromPage)
+    {
+        $this->fromPage = $fromPage;
+
+        return $this;
+    }
+
+    /**
+     * Get fromPage
+     *
+     * @return string
+     */
+    public function getFromPage()
+    {
+        return $this->fromPage;
     }
 }
