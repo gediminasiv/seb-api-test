@@ -36,6 +36,13 @@ class Request
     private $fromPage;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="user_agent", type="string")
+     */
+    private $userAgent;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="request_time", type="datetime")
@@ -154,5 +161,29 @@ class Request
     public function getFromPage()
     {
         return $this->fromPage;
+    }
+
+    /**
+     * Set userAgent
+     *
+     * @param string $userAgent
+     *
+     * @return Request
+     */
+    public function setUserAgent($userAgent)
+    {
+        $this->userAgent = $userAgent;
+
+        return $this;
+    }
+
+    /**
+     * Get userAgent
+     *
+     * @return string
+     */
+    public function getUserAgent()
+    {
+        return $this->userAgent;
     }
 }
