@@ -57,6 +57,25 @@ class IndexController extends Controller
      */
     public function visualsAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $requestRepo = $em->getRepository(RequestInfo::class);
+
+        $requests = $requestRepo->findAll();
+
+        foreach ($requests as $request) {
+            foreach ($request->getRequestInfo() as $requestInfo) {
+                $requestData = explode(' : ', $requestInfo);
+
+                if (strtolower($requestData[0]) == 'user-agent') {
+                    $request->setUserAgent($requestData[1]);
+
+                    $em->persist($request);
+                    $em->flush();
+                }
+            }
+        }
+
         return $this->render('@AppBundle/main/visuals.html.twig');
     }
 
